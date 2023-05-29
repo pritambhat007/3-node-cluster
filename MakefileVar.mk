@@ -23,7 +23,7 @@ KUBECTL_VERSION   ?= v1.23.0
 RKE2_K8S_VERSION  ?= v1.23.4+rke2r1
 K8S_VERSION       ?= v1.20.11
 
-ENABLE_ROUTER ?= true
+ENABLE_ROUTER ?= false
 ENABLE_SUBSCRIBER_PROXY ?= false
 GNBSIM_COLORS ?= true
 
@@ -36,6 +36,8 @@ HTTPS_PROXY     ?= ${https_proxy}
 NO_PROXY        ?= ${no_proxy}
 
 HELM_GLOBAL_ARGS ?=
+A-NODE		= ubuntu@10.73.73.124
+PASSWD		= 'Gslab@123'
 
 # Include blueprint-specific configuration parameters
 include $(BLUEPRINTDIR)/config
