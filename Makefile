@@ -6,7 +6,7 @@
 include ./MakefileVar.mk
 include ./mk/*.mk
 
-.PHONY: $(NET_PHONY) $(GITOPS_PHONY) $(AMP_PHONY) $(CORE_PHONY) node-prep clean
+.PHONY: $(NET_PHONY) $(GITOPS_PHONY) $(AMP_PHONY) $(CORE_PHONY) $(3_NODE) node-prep clean cni-prep cni1-prep
 
 $(M):
 	mkdir -p $(M)
@@ -117,7 +117,8 @@ $(M)/k8s-ready: | $(M)/setup
 	sudo chown -R $(shell id -u):$(shell id -g) $(HOME)/.kube
 	touch $@
 
-$(M)/helm-ready: | $(M)/k8s-ready
+#$(M)/helm-ready: | $(M)/k8s-ready
+$(M)/helm-ready: | $(M)/3-node-cluster
 	curl -fsSL -o ${GET_HELM} https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 	chmod 700 ${GET_HELM}
 	sudo DESIRED_VERSION=$(HELM_VERSION) ./${GET_HELM}
@@ -132,14 +133,16 @@ $(M)/helm-ready: | $(M)/k8s-ready
 endif
 
 
-/opt/cni/bin/static: | $(M)/k8s-ready
+#/opt/cni/bin/static: | $(M)/k8s-ready
+/opt/cni/bin/static: | $(M)/3-node-cluster
 	mkdir -p $(BUILD)/cni-plugins; cd $(BUILD)/cni-plugins; \
 	wget https://github.com/containernetworking/plugins/releases/download/v0.8.2/cni-plugins-linux-amd64-v0.8.2.tgz && \
 	tar xvfz cni-plugins-linux-amd64-v0.8.2.tgz
 	sudo cp $(BUILD)/cni-plugins/static /opt/cni/bin/
 
 
-node-prep: | $(M)/helm-ready /opt/cni/bin/static
+#node-prep: | $(M)/helm-ready /opt/cni/bin/static
+3-node-cluster: | $(M)/helm-ready  /opt/cni/bin/static
 
 
 ifeq ($(K8S_INSTALL),rke2)
