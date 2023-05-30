@@ -36,8 +36,6 @@ HTTPS_PROXY     ?= ${https_proxy}
 NO_PROXY        ?= ${no_proxy}
 
 HELM_GLOBAL_ARGS ?=
-A-NODE		= ubuntu@10.73.73.124
-PASSWD		= 'Gslab@123'
 
 # Include blueprint-specific configuration parameters
 include $(BLUEPRINTDIR)/config
