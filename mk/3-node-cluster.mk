@@ -6,8 +6,8 @@
 
 3-node-cluster: $(M)/3-node-cluster
 $(M)/3-node-cluster: $(M)/setup
-	sudo sshpass -p $(PASSWD) ssh -o StrictHostKeyChecking=no $(A-NODE) "cd /home/ubuntu/ansible/;ls"
-	sudo sshpass -p $(PASSWD) ssh -o StrictHostKeyChecking=no $(A-NODE) "ansible-playbook /home/ubuntu/ansible/cluster.yml -i /home/ubuntu/ansible/host.ini"
+	cd /home/ubuntu/ansible/
+	ansible-playbook /home/ubuntu/ansible/cluster.yml -i /home/ubuntu/ansible/host.ini
 	curl -LO "https://dl.k8s.io/release/$(KUBECTL_VERSION)/bin/linux/amd64/kubectl"
 	sudo chmod +x kubectl
 	sudo mv kubectl /usr/local/bin/
